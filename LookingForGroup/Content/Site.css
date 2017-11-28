@@ -1,0 +1,55 @@
+﻿.vis-item {
+    background-color: #5AC594;
+    border-color: #00a65a;
+    color: #fff;
+}
+
+    .vis-item.vis-selected {
+        background-color: #00A65A;
+        border-color: #008D4C;
+        color: #fff inherit;
+    }
+
+.rz-pointer[aria-valuetext^="Bronze"] {
+    background-color: #732A10;
+}
+
+.rz-pointer[aria-valuetext^="Silver"] {
+    background-color: #B6D5FF;
+}
+
+.rz-pointer[aria-valuetext^="Gold"] {
+    background-color: #EFA92A;
+}
+
+.rz-pointer[aria-valuetext^="Platinum"] {
+    background-color: #887EFA;
+}
+
+.rz-pointer[aria-valuetext^="Diamond"] {
+    background-color: #84F2FA;
+}
+
+.rz-pointer[aria-valuetext^="Master"] {
+    background-color: #150A73;
+}
+
+.rz-pointer[aria-valuetext^="GrandMaster"] {
+    background-color: #150A73;
+}
+
+.find .vis-label .info {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+}
+
+.find .vis-label:hover {
+    background-color: #00c0ef;
+    cursor: pointer;
+}
+
+.battletag .copy:hover {
+    background-color: #00c0ef;
+    cursor: pointer;
+}

@@ -1,0 +1,11 @@
+﻿{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "types": [],
+    "sourceMap": true,
+    "target": "es2016",
+    "noEmitOnError": true,
+    "outFile": "./scripts/app.js",
+    "module": "amd"
+  }
+}

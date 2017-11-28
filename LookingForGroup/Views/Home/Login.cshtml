@@ -1,0 +1,74 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="~/admin-lte/css/AdminLTE.css">
+    <link rel="stylesheet" href="~/admin-lte/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="/"><b>Looking for Group</b></a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="box-body">
+            @if (Request.IsLocal)
+            {
+                using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                {
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control" name="email" placeholder="Email">
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" class="form-control" name="password" placeholder="Password">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="checkbox icheck">
+                                <label>
+                                    <input type="checkbox" name="remember"> Remember Me
+                                </label>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                }
+            }
+            <div class="social-auth-links text-center">
+                @using (Html.BeginForm("ExternalLogin", "Home", new { ReturnUrl = "/Account" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @*<button type="submit" class="btn btn-block btn-social btn-facebook btn-flat" id="Facebook" name="provider" value="Facebook" title="Log in using your Facebook account">
+                        <i class="fa fa-facebook"></i> Sign in using
+                        Facebook
+                    </button>*@
+                    <button type="submit" class="btn btn-social btn-github" id="BattleNet" name="provider" value="BattleNet" title="Log in using your BattleNet account">
+                        @*<i class="fa fa-dropbox"></i> Sign in using
+                        BattleNet*@
+                        <img src="~/Content/battlenet.png" /> Sign in using Battle.NET
+                    </button>
+                }
+
+            </div>
+            <!-- /.login-box-body -->
+        </div>
+        <!-- /.login-box -->
+        <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+        <script src="~/Scripts/tether.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/admin-lte/js/adminlte.min.js"></script>
+</body>
+</html>
