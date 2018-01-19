@@ -30,7 +30,7 @@ namespace LookingForGroup.Models
                     var commonPeriod = new AvailabilityPeriod()
                     {
                         StartTime = new TimeSpan(Math.Max(user1Period.StartTime.Ticks, user2Period.StartTime.Ticks)),
-                        EndTime = new TimeSpan(Math.Min(user1Period.EndTime.Ticks, user2Period.EndTime.Ticks)),
+                        EndTime = new TimeSpan(Math.Min(user1Period.EndTimeNormalized.Ticks, user2Period.EndTimeNormalized.Ticks)),
                     };
                     total += commonPeriod.GetMinutes();
                 }

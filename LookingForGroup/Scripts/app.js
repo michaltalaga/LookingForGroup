@@ -242,7 +242,7 @@ var System;
     })(DayOfWeek = System.DayOfWeek || (System.DayOfWeek = {}));
 })(System || (System = {}));
 window['moment-range'].extendMoment(moment);
-var app = angular.module("lookingForGroup", ['ui.router', 'ui.bootstrap', 'ngVis', 'toaster', 'rzModule']);
+var app = angular.module("lookingForGroup", ['ui.router', 'ui.bootstrap', 'ngVis', 'toaster', 'rzModule', 'bootstrapLightbox']);
 app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
     $stateProvider
         .state('Account', {
@@ -254,12 +254,52 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
         url: "/Find",
         templateUrl: "/Template/Find",
         controller: FindController
+    })
+        .state('About', {
+        url: "/About",
+        templateUrl: "/Template/About",
+        controller: GenericPageController
+    })
+        .state('Contact', {
+        url: "/Contact",
+        templateUrl: "/Template/Contact",
+        controller: GenericPageController
     });
     $locationProvider.html5Mode(true);
 });
 app.factory('$', [
     '$window', $window => $window.jQuery
 ]);
+class LightboxDirective {
+    constructor(Lightbox) {
+        this.Lightbox = Lightbox;
+        this.restrict = 'A';
+        this.link = (scope, element, attrs, ctrl) => {
+            if (element[0].tagName !== 'IMG')
+                return;
+            var src = element[0].getAttribute('src');
+            var lightbox = this.Lightbox;
+            element.on('click', (xxx) => {
+                var images = [];
+                images.push({
+                    url: src
+                });
+                lightbox.openModal(images, 0);
+            });
+        };
+    }
+    static factory() {
+        const directive = (Lightbox) => new LightboxDirective(Lightbox);
+        directive.$inject = ['Lightbox'];
+        return directive;
+    }
+}
+app.directive('lightbox', LightboxDirective.factory());
+class GenericPageController {
+    constructor($scope) {
+    }
+}
+GenericPageController.$inject = ['$scope'];
 /// <reference path="../../app/app.ts" />
 class AccountApiController {
     constructor($http) {
@@ -402,7 +442,7 @@ class AccountController {
                     newItem = {
                         content: "",
                         start: nearestMinutes(snapMinutes, moment(e.time)),
-                        end: nearestMinutes(snapMinutes, moment(e.time)).add('minutes', 1),
+                        end: nearestMinutes(snapMinutes, moment(e.time)).add(1, 'minutes'),
                         group: e.group
                     };
                 },
@@ -502,7 +542,9 @@ class AccountController {
                     start = moment(item.start);
                     end = moment(item.end);
                 }
-                return `${start.format("HH:mm")}-${end.format("HH:mm")}`;
+                var startString = start.format("HH:mm");
+                var endString = maxTime.diff(end) === 0 ? "24:00" : end.format("HH:mm");
+                return `${startString}-${endString}`;
             }
             return "???";
             function isDataItem(x) {
@@ -575,10 +617,10 @@ class FindController {
                     return dayA - dayB || a.StartTimeString.localeCompare(b.StartTimeString);
                 }).forEach(period => {
                     var dayOffset = period.Day === 0 ? 6 : period.Day - 1;
-                    var start = moment(minTime.format("YYYY-MM-DD") + "T" + period.StartTimeString).add('days', dayOffset);
-                    var end = moment(minTime.format("YYYY-MM-DD") + "T" + period.EndTimeString).add('days', dayOffset);
+                    var start = moment(minTime.format("YYYY-MM-DD") + "T" + period.StartTimeString).add(dayOffset, 'days');
+                    var end = moment(minTime.format("YYYY-MM-DD") + "T" + period.EndTimeString).add(dayOffset, 'days');
                     if (period.EndTimeString === "00:00:00") {
-                        end.add('days', 1);
+                        end.add(1, 'days');
                     }
                     // merge pariods that start/end on midnight
                     if (thisPlayerPeriods.length > 0 && start.isSame(thisPlayerPeriods[thisPlayerPeriods.length - 1].end)) {
@@ -589,7 +631,7 @@ class FindController {
                     else {
                         var newPeriod = {
                             content: '',
-                            title: start.format("HH:mm") + "-" + end.format("HH:mm"),
+                            title: start.format("HH:mm") + "-" + (end.format("HH:mm") === "00:00" ? "24:00" : end.format("HH:mm")),
                             start: start,
                             end: end,
                             group: player.UserId,
@@ -612,7 +654,7 @@ class FindController {
         };
         var options = {
             start: minTime.clone(),
-            end: minTime.clone().add('days', 7),
+            end: minTime.clone().add(7, 'days'),
             stack: false,
             moveable: false,
             showMajorLabels: false,
@@ -629,7 +671,22 @@ class FindController {
             groupTemplate: function (group, element) {
                 if (!group.player)
                     return null;
-                return `<div class="player">${group.player.Nick}</div><div class="flag flag-${group.player.CountryCode.toLowerCase()}"></div><i class="info fa fa-info-circle"></i>`;
+                var minRankNumber = LookingForGroup.Models.Rank[group.player.MinRank].charAt(LookingForGroup.Models.Rank[group.player.MinRank].length - 1);
+                var maxRankNumber = LookingForGroup.Models.Rank[group.player.MaxRank].charAt(LookingForGroup.Models.Rank[group.player.MaxRank].length - 1);
+                ;
+                if (group.player.MinRank === LookingForGroup.Models.Rank.Master) {
+                    minRankNumber = "M";
+                }
+                if (group.player.MinRank === LookingForGroup.Models.Rank.GrandMaster) {
+                    minRankNumber = "GM";
+                }
+                if (group.player.MaxRank === LookingForGroup.Models.Rank.Master) {
+                    maxRankNumber = "M";
+                }
+                if (group.player.MaxRank === LookingForGroup.Models.Rank.GrandMaster) {
+                    maxRankNumber = "GM";
+                }
+                return `<div class="player">${group.player.Nick}</div><div class="flag flag-${group.player.CountryCode.toLowerCase()}"></div><div class='ranks'><div title="${LookingForGroup.Models.Rank[group.player.MinRank]}" class="${LookingForGroup.Models.Rank[group.player.MinRank]}">${minRankNumber}</div><div title="${LookingForGroup.Models.Rank[group.player.MaxRank]}" class="${LookingForGroup.Models.Rank[group.player.MaxRank]}">${maxRankNumber}</div></div><i class="info fa fa-info-circle"></i>`;
             }
         };
         $scope.options = options;

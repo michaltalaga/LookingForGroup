@@ -14,8 +14,8 @@ namespace LookingForGroup
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.MapMvcAttributeRoutes();
             routes.MapRoute(name: "AngularCatchAll",
-            url: "{xxx}/",
-            defaults: new { controller = "Home", action = "Index" });
+                url: "{xxx}/",
+                defaults: new { controller = "Home", action = "Index" });
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

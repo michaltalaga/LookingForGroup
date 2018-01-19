@@ -25,7 +25,8 @@ namespace LookingForGroup.Api
                 users = users.Where(u => u.Region == currentUser.Region);
                 users = users.Where(u => u.MinRank <= currentUser.MaxRank && u.MaxRank >= currentUser.MinRank);
                 users = users.Where(u => u.AvailabilityPeriods?.Length > 0);
-                users = users.OrderByDescending(u => matchFinder.GetMatchScore(currentUser, u)).ThenByDescending(u => u.AvailabilityPeriods.GetTotalMinutes());
+                var usersMatches = users.Select(u => new { User = u, Match = matchFinder.GetMatchScore(currentUser, u) });
+                users = usersMatches.Where(um => um.Match > 0).OrderByDescending(um => um.Match).ThenByDescending(um => um.User.AvailabilityPeriods.GetTotalMinutes()).Select(um => um.User);
                 users = (new User[] { currentUser }).Union(users);
 
             }
@@ -46,12 +47,16 @@ namespace LookingForGroup.Api
                 CountryCode = u.CountryCode;
                 Tags = u.Tags;
                 Periods = u.AvailabilityPeriods.Select(ap => new AccountApiController.AccountDetails.AvailabilityPeriod() { Day = ap.Day, StartTimeString = ap.StartTime.ToString(), EndTimeString = ap.EndTime.ToString() }).ToArray();
+                MinRank = u.MinRank;
+                MaxRank = u.MaxRank;
             }
             public int UserId { get; set; }
             public string Nick { get; set; }
             public string CountryCode { get; set; }
             public string[] Tags { get; set; }
             public AccountApiController.AccountDetails.AvailabilityPeriod[] Periods { get; set; }
+            public Rank MinRank { get; set; }
+            public Rank MaxRank { get; set; }
         }
 
         public class FindPlayersQuery

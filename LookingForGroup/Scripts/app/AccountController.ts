@@ -110,7 +110,7 @@ class AccountController {
                     newItem = {
                         content: "",
                         start: nearestMinutes(snapMinutes, moment(e.time)),
-                        end: nearestMinutes(snapMinutes, moment(e.time)).add('minutes', 1),
+                        end: nearestMinutes(snapMinutes, moment(e.time)).add(1, 'minutes'),
                         group: e.group
                     };
                 },
@@ -219,7 +219,9 @@ class AccountController {
                     start = moment(item.start);
                     end = moment(item.end);
                 }
-                return `${start.format("HH:mm")}-${end.format("HH:mm")}`;
+                var startString = start.format("HH:mm");
+                var endString = maxTime.diff(end) === 0 ? "24:00" : end.format("HH:mm");
+                return `${startString}-${endString}`;
             }
             return "???";
 

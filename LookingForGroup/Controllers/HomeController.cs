@@ -16,7 +16,7 @@ namespace LookingForGroup.Controllers
 {
     public class HomeController : Controller
     {
-        UsersRepository usersRepository = new UsersRepository();
+        UsersRepository usersRepository = new UsersRepository();    
         // GET: Home
         public ActionResult Index()
         {

@@ -10,38 +10,42 @@
         color: #fff inherit;
     }
 
-.rz-pointer[aria-valuetext^="Bronze"] {
+.rz-pointer[aria-valuetext^="Bronze"], .ranks *[class^="Bronze"] {
     background-color: #732A10;
+    color: white;
 }
 
-.rz-pointer[aria-valuetext^="Silver"] {
+.rz-pointer[aria-valuetext^="Silver"], .ranks *[class^="Silver"] {
     background-color: #B6D5FF;
+    color: black;
 }
 
-.rz-pointer[aria-valuetext^="Gold"] {
+.rz-pointer[aria-valuetext^="Gold"], .ranks *[class^="Gold"] {
     background-color: #EFA92A;
+    color: black;
 }
 
-.rz-pointer[aria-valuetext^="Platinum"] {
+.rz-pointer[aria-valuetext^="Platinum"], .ranks *[class^="Platinum"] {
     background-color: #887EFA;
+    color: white;
 }
 
-.rz-pointer[aria-valuetext^="Diamond"] {
+.rz-pointer[aria-valuetext^="Diamond"], .ranks *[class^="Diamond"] {
     background-color: #84F2FA;
 }
 
-.rz-pointer[aria-valuetext^="Master"] {
+.rz-pointer[aria-valuetext^="Master"], .ranks *[class^="Master"] {
     background-color: #150A73;
+    color: white;
 }
 
-.rz-pointer[aria-valuetext^="GrandMaster"] {
+.rz-pointer[aria-valuetext^="GrandMaster"], .ranks *[class^="GrandMaster"] {
     background-color: #150A73;
+    color: white;
 }
 
 .find .vis-label .info {
-    position: absolute;
-    bottom: 6px;
-    right: 6px;
+    display: inline-block;
 }
 
 .find .vis-label:hover {
@@ -52,4 +56,31 @@
 .battletag .copy:hover {
     background-color: #00c0ef;
     cursor: pointer;
+}
+
+.find .vis-label .ranks {
+    display: inline-block;
+    margin-left: 2px;
+}
+
+    .find .vis-label .ranks > * {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 8px;
+        font-size: 11px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+#alphamark {
+    width: 162px;
+    height: 162px;
+    position: absolute;
+    z-index: 9999;
+    top:0;
+    right:0;
+    background-image: url(/Content/AlphaMark.png);
+    background-repeat: no-repeat;
+    background-position: right top;
 }

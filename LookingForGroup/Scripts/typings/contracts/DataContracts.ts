@@ -34,6 +34,8 @@ namespace LookingForGroup.Api.FindApiController {
 		CountryCode?: string;
 		Tags?: string[];
 		Periods?: LookingForGroup.Api.AccountApiController.AccountDetails.AvailabilityPeriod[];
+		MinRank?: LookingForGroup.Models.Rank;
+		MaxRank?: LookingForGroup.Models.Rank;
 	}
 }
 

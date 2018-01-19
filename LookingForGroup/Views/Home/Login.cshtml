@@ -16,10 +16,12 @@
     <div class="login-box">
         <div class="login-logo">
             <a href="/"><b>Looking for Group</b></a>
+            <img src="~/Content/foreveralone.png" height="128" />
+            <img src="~/Content/workinprogress.png" height="96" />
         </div>
         <!-- /.login-logo -->
         <div class="box-body">
-            @if (Request.IsLocal)
+            @if (Request.IsLocal && false)
             {
                 using (Html.BeginForm("Login", "Home", FormMethod.Post))
                 {

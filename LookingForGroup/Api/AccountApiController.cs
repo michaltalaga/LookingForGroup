@@ -32,12 +32,12 @@ namespace LookingForGroup.Api
         {
             if (string.IsNullOrEmpty(accountDetails.BattleTag)) throw new ArgumentException();
             var user = usersRepository.FindByBattleTag(User.Identity.Name);
-            user.BattleTag = accountDetails.BattleTag;
+            //user.BattleTag = accountDetails.BattleTag;
             user.CountryCode = accountDetails.CountryCode;
             user.Region = accountDetails.Region;
             user.MinRank = accountDetails.MinRank;
             user.MaxRank = accountDetails.MaxRank;
-            user.Message = accountDetails.Message?.Substring(0, Models.User.MaxMessageLength);
+            user.Message = accountDetails.Message?.Substring(0, Math.Min(accountDetails.Message?.Length ?? 0, Models.User.MaxMessageLength));
             user.AvailabilityPeriods = accountDetails.Periods.Select(p => new Models.AvailabilityPeriod() { Day = p.Day, StartTime = TimeSpan.Parse(p.StartTimeString), EndTime = TimeSpan.Parse(p.EndTimeString) }).ToArray();
             usersRepository.Update(user);
 

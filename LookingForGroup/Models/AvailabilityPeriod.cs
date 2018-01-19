@@ -10,15 +10,26 @@ namespace LookingForGroup.Models
     {
         public DayOfWeek Day { get; set; }
         public TimeSpan StartTime { get; set; }
+        /// <summary>
+        /// !!! EndTime can be 00:00 which normally means it's an end of day rather than start.
+        /// Always consider using <seealso cref="AvailabilityPeriod.EndTimeNormalized"/> for calculations!
+        /// </summary>
         public TimeSpan EndTime { get; set; }
+        internal TimeSpan EndTimeNormalized
+        {
+            get
+            {
+                return EndTime.TotalMinutes == 0 ? TimeSpan.FromHours(24) : EndTime;
+            }
+        }
 
         public int GetMinutes()
         {
-            return (int)(EndTime - StartTime).TotalMinutes;
+            return (int)(EndTimeNormalized - StartTime).TotalMinutes;
         }
         public bool Overlaps(AvailabilityPeriod period)
         {
-            return !(StartTime >= period.EndTime || EndTime <= period.StartTime);
+            return !(StartTime >= period.EndTimeNormalized || EndTimeNormalized <= period.StartTime);
         }
     }
     public static class AvailabilityPeriodExtensions
