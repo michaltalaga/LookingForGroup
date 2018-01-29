@@ -18,6 +18,16 @@
         
         return parameter.Type.IsNullable ? "?" : "";
     }
+    string CustomUrl(Method method)
+    {
+        var url = method.Url();
+        foreach(var parameter in method.Parameters)
+        {
+            url = url.Replace($"${{{parameter.Name}}}", $"${{{parameter.Name}?{parameter.Name}:''}}");
+        }
+
+        return url;
+    }
 }/// <reference path="../../app/app.ts" />
 $Classes(:ApiController)[interface I$Name {$Methods[
     $name($Parameters[$name$Optional: $Type[$JavaScriptType]][, ]): ng.IHttpPromise<$Type[$JavaScriptType]>;]
@@ -30,7 +40,7 @@ class $Name implements I$Name {
     public $name = ($Parameters[$name$Optional: $Type[$JavaScriptType]][, ]): ng.IHttpPromise<$Type[$JavaScriptType]> => {
             
         return this.$http<$Type[$JavaScriptType]>({
-            url: `/$Url`, 
+            url: `/$CustomUrl`, 
             method: "$HttpMethod", 
             data: $RequestData
         });

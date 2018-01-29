@@ -470,7 +470,6 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\angular-vis.ts" />
-    <TypeScriptCompile Include="Scripts\app\AboutController.ts" />
     <TypeScriptCompile Include="Scripts\app\AccountController.ts" />
     <TypeScriptCompile Include="Scripts\app\FindController.ts" />
     <TypeScriptCompile Include="Scripts\app\app.ts" />

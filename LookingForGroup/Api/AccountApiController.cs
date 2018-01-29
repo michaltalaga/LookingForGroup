@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Http;
 
@@ -15,6 +16,7 @@ namespace LookingForGroup.Api
         {
             if (id == null)
             {
+                CheckIsAuthenticated();
                 var user = usersRepository.FindByBattleTag(User.Identity.Name);
                 return new AccountDetails(user);
             }
@@ -26,10 +28,12 @@ namespace LookingForGroup.Api
                 return accountDetails;
             }
         }
+
         [HttpPost]
         [Route("api/Account/UpdateAccout")]
         public void UpdateAccount(AccountDetails accountDetails)
         {
+            CheckIsAuthenticated();
             if (string.IsNullOrEmpty(accountDetails.BattleTag)) throw new ArgumentException();
             var user = usersRepository.FindByBattleTag(User.Identity.Name);
             //user.BattleTag = accountDetails.BattleTag;
@@ -46,10 +50,16 @@ namespace LookingForGroup.Api
         [Route("api/Account/DeleteAccount")]
         public void DeleteAccount()
         {
+            CheckIsAuthenticated();
             var user = usersRepository.FindByBattleTag(User.Identity.Name);
             usersRepository.Remove(user);
         }
 
+        private void CheckIsAuthenticated()
+        {
+            if (User.Identity.IsAuthenticated) return;
+            throw new HttpResponseException(HttpStatusCode.Unauthorized);
+        }
         public class AccountDetails
         {
             //public string Email { get; set; }

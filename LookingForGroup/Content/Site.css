@@ -84,3 +84,6 @@
     background-repeat: no-repeat;
     background-position: right top;
 }
+.find .vis-labelset .vis-label:first-of-type, .find .vis-itemset .vis-foreground .vis-group:first-of-type {
+    background-color: #f39c12;
+}

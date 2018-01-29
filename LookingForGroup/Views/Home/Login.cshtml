@@ -11,6 +11,15 @@
     <link rel="stylesheet" href="~/admin-lte/css/AdminLTE.css">
     <link rel="stylesheet" href="~/admin-lte/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-432990-18"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', '@System.Web.Configuration.WebConfigurationManager.AppSettings["google-analytics"]');
+    </script>
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
@@ -54,12 +63,12 @@
                 {
                     @Html.AntiForgeryToken()
                     @*<button type="submit" class="btn btn-block btn-social btn-facebook btn-flat" id="Facebook" name="provider" value="Facebook" title="Log in using your Facebook account">
-                        <i class="fa fa-facebook"></i> Sign in using
-                        Facebook
-                    </button>*@
+                            <i class="fa fa-facebook"></i> Sign in using
+                            Facebook
+                        </button>*@
                     <button type="submit" class="btn btn-social btn-github" id="BattleNet" name="provider" value="BattleNet" title="Log in using your BattleNet account">
                         @*<i class="fa fa-dropbox"></i> Sign in using
-                        BattleNet*@
+                            BattleNet*@
                         <img src="~/Content/battlenet.png" /> Sign in using Battle.NET
                     </button>
                 }
@@ -72,5 +81,6 @@
         <script src="~/Scripts/tether.min.js"></script>
         <script src="~/Scripts/bootstrap.min.js"></script>
         <script src="~/admin-lte/js/adminlte.min.js"></script>
+    </div>
 </body>
 </html>

@@ -12,7 +12,7 @@ class AccountApiController implements IAccountApiController {
     public getAccountDetails = (id?: number): ng.IHttpPromise<LookingForGroup.Api.AccountApiController.AccountDetails> => {
             
         return this.$http<LookingForGroup.Api.AccountApiController.AccountDetails>({
-            url: `/api/Account/GetAccountDetails?id=${id}`, 
+            url: `/api/Account/GetAccountDetails?id=${id?id:''}`, 
             method: "get", 
             data: null
         });

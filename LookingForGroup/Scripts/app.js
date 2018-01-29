@@ -265,6 +265,7 @@ app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
         templateUrl: "/Template/Contact",
         controller: GenericPageController
     });
+    $urlRouterProvider.otherwise('/Account');
     $locationProvider.html5Mode(true);
 });
 app.factory('$', [
@@ -300,13 +301,25 @@ class GenericPageController {
     }
 }
 GenericPageController.$inject = ['$scope'];
+app.service('authInterceptor', function ($q) {
+    var service = this;
+    service.responseError = function (response) {
+        if (response.status == 401) {
+            window.location.href = "/Login";
+        }
+        return $q.reject(response);
+    };
+});
+app.config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.interceptors.push('authInterceptor');
+    }]);
 /// <reference path="../../app/app.ts" />
 class AccountApiController {
     constructor($http) {
         this.$http = $http;
         this.getAccountDetails = (id) => {
             return this.$http({
-                url: `/api/Account/GetAccountDetails?id=${id}`,
+                url: `/api/Account/GetAccountDetails?id=${id ? id : ''}`,
                 method: "get",
                 data: null
             });

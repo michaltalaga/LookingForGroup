@@ -17,7 +17,15 @@
     <link rel="stylesheet" type="text/css" href="/Content/rzslider.min.css" />
     <link href="/Content/angular-bootstrap-lightbox.min.css" rel="stylesheet" />
     <link href="/Content/Site.css" rel="stylesheet" />
-    @*<script src="~/Scripts/modernizr-2.6.2.js"></script>*@
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-432990-18"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', '@System.Web.Configuration.WebConfigurationManager.AppSettings["google-analytics"]');
+    </script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini" ng-app="lookingForGroup">
     <div id="alphamark"></div>
@@ -62,7 +70,7 @@
                     <li><a ui-sref="Contact"><i class="fa fa-send"></i> <span>Contact</span></a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a ui-sref="Find"><i class="fa fa-home"></i> <span>Find</span></a></li>
+                        <li><a ui-sref="Find"><i class="fa fa-search"></i> <span>Find</span></a></li>
                         <li><a ui-sref="Account"><i class="fa fa-user"></i> <span>Account</span></a></li>
                         <li><a href="/Logout" target="_self"><i class="fa fa-sign-out"></i> <span>Logout</span></a></li>
                     }

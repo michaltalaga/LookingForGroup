@@ -66,7 +66,7 @@ class FindController {
             });
             items.clear();
             items.add(allItems);
-
+            
 
         });
 
