@@ -265,6 +265,7 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\foreveralone.png" />
+    <Content Include="Content\github.png" />
     <Content Include="Content\LookingForGroupAccount.png" />
     <Content Include="Content\LookingForGroupFind.png" />
     <Content Include="Content\LookingForGroupProblem.png" />
