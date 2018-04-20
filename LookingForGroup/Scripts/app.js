@@ -192,55 +192,6 @@ angular.module('ngVis', [])
         }
     };
 });
-var LookingForGroup;
-(function (LookingForGroup) {
-    var Models;
-    (function (Models) {
-        let Rank;
-        (function (Rank) {
-            Rank[Rank["Bronze5"] = 0] = "Bronze5";
-            Rank[Rank["Bronze4"] = 1] = "Bronze4";
-            Rank[Rank["Bronze3"] = 2] = "Bronze3";
-            Rank[Rank["Bronze2"] = 3] = "Bronze2";
-            Rank[Rank["Bronze1"] = 4] = "Bronze1";
-            Rank[Rank["Silver5"] = 5] = "Silver5";
-            Rank[Rank["Silver4"] = 6] = "Silver4";
-            Rank[Rank["Silver3"] = 7] = "Silver3";
-            Rank[Rank["Silver2"] = 8] = "Silver2";
-            Rank[Rank["Silver1"] = 9] = "Silver1";
-            Rank[Rank["Gold5"] = 10] = "Gold5";
-            Rank[Rank["Gold4"] = 11] = "Gold4";
-            Rank[Rank["Gold3"] = 12] = "Gold3";
-            Rank[Rank["Gold2"] = 13] = "Gold2";
-            Rank[Rank["Gold1"] = 14] = "Gold1";
-            Rank[Rank["Platinum5"] = 15] = "Platinum5";
-            Rank[Rank["Platinum4"] = 16] = "Platinum4";
-            Rank[Rank["Platinum3"] = 17] = "Platinum3";
-            Rank[Rank["Platinum2"] = 18] = "Platinum2";
-            Rank[Rank["Platinum1"] = 19] = "Platinum1";
-            Rank[Rank["Diamond5"] = 20] = "Diamond5";
-            Rank[Rank["Diamond4"] = 21] = "Diamond4";
-            Rank[Rank["Diamond3"] = 22] = "Diamond3";
-            Rank[Rank["Diamond2"] = 23] = "Diamond2";
-            Rank[Rank["Diamond1"] = 24] = "Diamond1";
-            Rank[Rank["Master"] = 25] = "Master";
-            Rank[Rank["GrandMaster"] = 26] = "GrandMaster";
-        })(Rank = Models.Rank || (Models.Rank = {}));
-    })(Models = LookingForGroup.Models || (LookingForGroup.Models = {}));
-})(LookingForGroup || (LookingForGroup = {}));
-var System;
-(function (System) {
-    let DayOfWeek;
-    (function (DayOfWeek) {
-        DayOfWeek[DayOfWeek["Sunday"] = 0] = "Sunday";
-        DayOfWeek[DayOfWeek["Monday"] = 1] = "Monday";
-        DayOfWeek[DayOfWeek["Tuesday"] = 2] = "Tuesday";
-        DayOfWeek[DayOfWeek["Wednesday"] = 3] = "Wednesday";
-        DayOfWeek[DayOfWeek["Thursday"] = 4] = "Thursday";
-        DayOfWeek[DayOfWeek["Friday"] = 5] = "Friday";
-        DayOfWeek[DayOfWeek["Saturday"] = 6] = "Saturday";
-    })(DayOfWeek = System.DayOfWeek || (System.DayOfWeek = {}));
-})(System || (System = {}));
 window['moment-range'].extendMoment(moment);
 var app = angular.module("lookingForGroup", ['ui.router', 'ui.bootstrap', 'ngVis', 'toaster', 'rzModule', 'bootstrapLightbox']);
 app.config(($stateProvider, $urlRouterProvider, $locationProvider) => {
@@ -313,48 +264,6 @@ app.service('authInterceptor', function ($q) {
 app.config(['$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push('authInterceptor');
     }]);
-/// <reference path="../../app/app.ts" />
-class AccountApiController {
-    constructor($http) {
-        this.$http = $http;
-        this.getAccountDetails = (id) => {
-            return this.$http({
-                url: `/api/Account/GetAccountDetails?id=${id ? id : ''}`,
-                method: "get",
-                data: null
-            });
-        };
-        this.updateAccount = (accountDetails) => {
-            return this.$http({
-                url: `/api/Account/UpdateAccout`,
-                method: "post",
-                data: accountDetails
-            });
-        };
-        this.deleteAccount = () => {
-            return this.$http({
-                url: `/api/Account/DeleteAccount`,
-                method: "post",
-                data: null
-            });
-        };
-    }
-}
-app.service("AccountApiService", ["$http", AccountApiController]);
-/// <reference path="../../app/app.ts" />
-class FindApiController {
-    constructor($http) {
-        this.$http = $http;
-        this.find = (query) => {
-            return this.$http({
-                url: `/api/Find/Find`,
-                method: "post",
-                data: query
-            });
-        };
-    }
-}
-app.service("FindApiService", ["$http", FindApiController]);
 /// <reference path="app.ts" />
 class AccountController {
     constructor($scope, $window, accountApi, toaster, $timeout) {
@@ -473,7 +382,7 @@ class AccountController {
                 "mouseUp": (e) => {
                     if (!newItem)
                         return;
-                    if ((new Date(newItem.end).getTime() - new Date(newItem.start).getTime()) < 1000 * 60 * snapMinutes * 2) {
+                    if ((newItem.end.valueOf() - newItem.start.valueOf()) < 1000 * 60 * snapMinutes * 2) {
                         items.remove(newItem.id);
                         newItem = null;
                         return;
@@ -723,4 +632,95 @@ class FindController {
     }
 }
 FindController.$inject = ['$scope', '$window', 'FindApiService', 'toaster', '$timeout', '$uibModal', 'AccountApiService'];
+/// <reference path="../../app/app.ts" />
+class AccountApiController {
+    constructor($http) {
+        this.$http = $http;
+        this.getAccountDetails = (id) => {
+            return this.$http({
+                url: `/api/Account/GetAccountDetails?id=${id ? id : ''}`,
+                method: "get",
+                data: null
+            });
+        };
+        this.updateAccount = (accountDetails) => {
+            return this.$http({
+                url: `/api/Account/UpdateAccout`,
+                method: "post",
+                data: accountDetails
+            });
+        };
+        this.deleteAccount = () => {
+            return this.$http({
+                url: `/api/Account/DeleteAccount`,
+                method: "post",
+                data: null
+            });
+        };
+    }
+}
+app.service("AccountApiService", ["$http", AccountApiController]);
+/// <reference path="../../app/app.ts" />
+class FindApiController {
+    constructor($http) {
+        this.$http = $http;
+        this.find = (query) => {
+            return this.$http({
+                url: `/api/Find/Find`,
+                method: "post",
+                data: query
+            });
+        };
+    }
+}
+app.service("FindApiService", ["$http", FindApiController]);
+var LookingForGroup;
+(function (LookingForGroup) {
+    var Models;
+    (function (Models) {
+        let Rank;
+        (function (Rank) {
+            Rank[Rank["Bronze5"] = 0] = "Bronze5";
+            Rank[Rank["Bronze4"] = 1] = "Bronze4";
+            Rank[Rank["Bronze3"] = 2] = "Bronze3";
+            Rank[Rank["Bronze2"] = 3] = "Bronze2";
+            Rank[Rank["Bronze1"] = 4] = "Bronze1";
+            Rank[Rank["Silver5"] = 5] = "Silver5";
+            Rank[Rank["Silver4"] = 6] = "Silver4";
+            Rank[Rank["Silver3"] = 7] = "Silver3";
+            Rank[Rank["Silver2"] = 8] = "Silver2";
+            Rank[Rank["Silver1"] = 9] = "Silver1";
+            Rank[Rank["Gold5"] = 10] = "Gold5";
+            Rank[Rank["Gold4"] = 11] = "Gold4";
+            Rank[Rank["Gold3"] = 12] = "Gold3";
+            Rank[Rank["Gold2"] = 13] = "Gold2";
+            Rank[Rank["Gold1"] = 14] = "Gold1";
+            Rank[Rank["Platinum5"] = 15] = "Platinum5";
+            Rank[Rank["Platinum4"] = 16] = "Platinum4";
+            Rank[Rank["Platinum3"] = 17] = "Platinum3";
+            Rank[Rank["Platinum2"] = 18] = "Platinum2";
+            Rank[Rank["Platinum1"] = 19] = "Platinum1";
+            Rank[Rank["Diamond5"] = 20] = "Diamond5";
+            Rank[Rank["Diamond4"] = 21] = "Diamond4";
+            Rank[Rank["Diamond3"] = 22] = "Diamond3";
+            Rank[Rank["Diamond2"] = 23] = "Diamond2";
+            Rank[Rank["Diamond1"] = 24] = "Diamond1";
+            Rank[Rank["Master"] = 25] = "Master";
+            Rank[Rank["GrandMaster"] = 26] = "GrandMaster";
+        })(Rank = Models.Rank || (Models.Rank = {}));
+    })(Models = LookingForGroup.Models || (LookingForGroup.Models = {}));
+})(LookingForGroup || (LookingForGroup = {}));
+var System;
+(function (System) {
+    let DayOfWeek;
+    (function (DayOfWeek) {
+        DayOfWeek[DayOfWeek["Sunday"] = 0] = "Sunday";
+        DayOfWeek[DayOfWeek["Monday"] = 1] = "Monday";
+        DayOfWeek[DayOfWeek["Tuesday"] = 2] = "Tuesday";
+        DayOfWeek[DayOfWeek["Wednesday"] = 3] = "Wednesday";
+        DayOfWeek[DayOfWeek["Thursday"] = 4] = "Thursday";
+        DayOfWeek[DayOfWeek["Friday"] = 5] = "Friday";
+        DayOfWeek[DayOfWeek["Saturday"] = 6] = "Saturday";
+    })(DayOfWeek = System.DayOfWeek || (System.DayOfWeek = {}));
+})(System || (System = {}));
 //# sourceMappingURL=app.js.map

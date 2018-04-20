@@ -60,7 +60,6 @@ namespace LookingForGroup
                 //BackchannelHttpHandler = new HttpClientHandler(),
                 
             };
-            o = options;
             options.Scope.Clear();
             app.UseBattleNetAuthentication(options);
         }

@@ -126,7 +126,7 @@ class AccountController {
                 },
                 "mouseUp": (e: vis.TimelineEventPropertiesResult) => {
                     if (!newItem) return;
-                    if ((new Date(newItem.end).getTime() - new Date(newItem.start).getTime()) < 1000 * 60 * snapMinutes * 2) {
+                    if ((<number>newItem.end.valueOf() - <number>newItem.start.valueOf()) < 1000 * 60 * snapMinutes * 2) {
                         items.remove(newItem.id);
                         newItem = null;
                         return;
