@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.AspNet.Identity;
 using System.Net.Http;
@@ -23,7 +22,7 @@ namespace LookingForGroup
         public void Configuration(IAppBuilder app)
         {
             System.Web.Helpers.AntiForgeryConfig.UniqueClaimTypeIdentifier = System.Security.Claims.ClaimsIdentity.DefaultNameClaimType;
-            var hubConfiguration = new HubConfiguration();
+            //var hubConfiguration = new HubConfiguration();
 
             //app.MapSignalR(hubConfiguration);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
