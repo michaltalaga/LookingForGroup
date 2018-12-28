@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 
@@ -53,6 +54,22 @@ namespace LookingForGroup.Api
             CheckIsAuthenticated();
             var user = usersRepository.FindByBattleTag(User.Identity.Name);
             usersRepository.Remove(user);
+        }
+        [HttpGet]
+        [Route("api/Account/Info")]
+        public string Info()
+        {
+            CheckIsAuthenticated();
+            if (User.Identity.Name != "mikeon#1946") return "";
+            var sb = new StringBuilder();
+            System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces().ToList().ForEach(i =>
+            {
+                sb.AppendLine($"{i.Name}");
+                i.GetIPProperties().UnicastAddresses.ToList().ForEach(ip => sb.AppendLine(ip.Address.ToString()));
+                sb.AppendLine();
+            });
+
+            return sb.ToString();
         }
 
         private void CheckIsAuthenticated()

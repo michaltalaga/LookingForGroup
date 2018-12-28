@@ -3,6 +3,7 @@ interface IAccountApiController {
     getAccountDetails(id?: number): ng.IHttpPromise<LookingForGroup.Api.AccountApiController.AccountDetails>;
     updateAccount(accountDetails: LookingForGroup.Api.AccountApiController.AccountDetails): ng.IHttpPromise<void>;
     deleteAccount(): ng.IHttpPromise<void>;
+    info(): ng.IHttpPromise<string>;
 }
 class AccountApiController implements IAccountApiController {
 
@@ -32,6 +33,15 @@ class AccountApiController implements IAccountApiController {
         return this.$http<void>({
             url: `/api/Account/DeleteAccount`, 
             method: "post", 
+            data: null
+        });
+    };
+        
+    public info = (): ng.IHttpPromise<string> => {
+            
+        return this.$http<string>({
+            url: `/api/Account/Info`, 
+            method: "get", 
             data: null
         });
     };

@@ -6,6 +6,9 @@ angular.module('ngVis', [])
         return new vis.DataSet(data, options);
     };
 })
+    /**
+     * TimeLine directive
+     */
     .directive('visTimeline', function () {
     'use strict';
     return {
@@ -67,6 +70,9 @@ angular.module('ngVis', [])
         }
     };
 })
+    /**
+     * Directive for network chart.
+     */
     .directive('visNetwork', function () {
     return {
         restrict: 'EA',
@@ -139,6 +145,9 @@ angular.module('ngVis', [])
         }
     };
 })
+    /**
+     * Directive for graph2d.
+     */
     .directive('visGraph2d', function () {
     'use strict';
     return {
@@ -541,7 +550,7 @@ class FindController {
                     var dayOffset = period.Day === 0 ? 6 : period.Day - 1;
                     var start = moment(minTime.format("YYYY-MM-DD") + "T" + period.StartTimeString).add(dayOffset, 'days');
                     var end = moment(minTime.format("YYYY-MM-DD") + "T" + period.EndTimeString).add(dayOffset, 'days');
-                    if (period.EndTimeString === "00:00:00") {
+                    if (period.EndTimeString === "00:00:00") { // ending on midnight means 00:00:00 next day
                         end.add(1, 'days');
                     }
                     // merge pariods that start/end on midnight
@@ -654,6 +663,13 @@ class AccountApiController {
             return this.$http({
                 url: `/api/Account/DeleteAccount`,
                 method: "post",
+                data: null
+            });
+        };
+        this.info = () => {
+            return this.$http({
+                url: `/api/Account/Info`,
+                method: "get",
                 data: null
             });
         };
